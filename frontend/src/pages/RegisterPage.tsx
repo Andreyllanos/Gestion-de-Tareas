@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { register } from "../services/auth.service";
 
 function RegisterPage() {
@@ -9,7 +8,6 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const { setToken } = useContext(AuthContext);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,15 +18,7 @@ function RegisterPage() {
     }
 
     try {
-      const data = await register(nombre, correo, password);
-
-      if (data?.token) {
-        localStorage.setItem("token", data.token);
-        setToken(data.token);
-        navigate("/dashboard");
-        return;
-      }
-
+      await register(nombre, correo, password);
       setMessage("Usuario creado correctamente. Ahora puedes iniciar sesión.");
       navigate("/");
     } catch (error) {
@@ -69,10 +59,6 @@ function RegisterPage() {
 
           <button type="submit">Registrarse</button>
         </form>
-
-        <p className="auth-link">
-          ¿Ya tienes cuenta? <Link to="/">Iniciar sesión</Link>
-        </p>
       </div>
     </div>
   );
