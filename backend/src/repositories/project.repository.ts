@@ -1,0 +1,118 @@
+import { pool } from "../config/db";
+
+export class ProjectRepository {
+
+    async create(
+        nombre: string,
+        descripcion: string,
+        usuarioId: number
+    ) {
+        const result = await pool.query(
+            `
+            INSERT INTO cbaproyectos
+            (
+                nombre,
+                descripcion,
+                usuario_id
+            )
+            VALUES
+            (
+                $1,
+                $2,
+                $3
+            )
+            RETURNING *
+            `,
+            [
+                nombre,
+                descripcion,
+                usuarioId
+            ]
+        );
+
+        return result.rows[0];
+    }
+
+    async findAllByUser(
+        usuarioId: number
+    ) {
+        const result = await pool.query(
+            `
+            SELECT *
+            FROM cbaproyectos
+            WHERE usuario_id = $1
+            ORDER BY created_at DESC
+            `,
+            [usuarioId]
+        );
+
+        return result.rows;
+    }
+
+    async findById(
+        id: number,
+        usuarioId: number
+    ) {
+        const result = await pool.query(
+            `
+            SELECT *
+            FROM cbaproyectos
+            WHERE id = $1
+            AND usuario_id = $2
+            `,
+            [
+                id,
+                usuarioId
+            ]
+        );
+
+        return result.rows[0];
+    }
+
+    async update(
+        id: number,
+        nombre: string,
+        descripcion: string,
+        usuarioId: number
+    ) {
+        const result = await pool.query(
+            `
+            UPDATE cbaproyectos
+            SET
+                nombre = $1,
+                descripcion = $2
+            WHERE id = $3
+            AND usuario_id = $4
+            RETURNING *
+            `,
+            [
+                nombre,
+                descripcion,
+                id,
+                usuarioId
+            ]
+        );
+
+        return result.rows[0];
+    }
+
+    async delete(
+        id: number,
+        usuarioId: number
+    ) {
+        const result = await pool.query(
+            `
+            DELETE FROM cbaproyectos
+            WHERE id = $1
+            AND usuario_id = $2
+            RETURNING *
+            `,
+            [
+                id,
+                usuarioId
+            ]
+        );
+
+        return result.rows[0];
+    }
+}

@@ -1,0 +1,44 @@
+Listado de rutas de carpetas para el volumen OS
+El número de serie del volumen es 8E0F-0409
+C:.
+|   app.ts
+|   estructura.txt
+|   server.ts
+|   
++---config
+|       db.ts
+|       
++---controllers
+|       auth.controller.ts
+|       project.controller.ts
+|       task.controller.ts
+|       
++---middlewares
+|       auth.middleware.ts
+|       
++---models
+|       project.interface.ts
+|       task.interface.ts
+|       user.interface.ts
+|       
++---repositories
+|       project.repository.ts
+|       task.repository.ts
+|       user.repository.ts
+|       
++---routes
+|       auth.routes.ts
+|       project.routes.ts
+|       task.routes.ts
+|       
++---services
+|       auth.service.ts
+|       project.service.ts
+|       task.service.ts
+|       
++---types
+|       express.d.ts
+|       
+\---utils
+        jwt.ts
+        
